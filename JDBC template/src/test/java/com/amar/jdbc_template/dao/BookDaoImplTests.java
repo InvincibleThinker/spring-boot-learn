@@ -43,12 +43,21 @@ public class BookDaoImplTests {
 
     @Test
     public void testThatFindOneBookGeneratesCorrectSql(){
-        underTest.find("978-1-2345-6789-0");
+        underTest.findOne("978-1-2345-6789-0");
 
         verify(jdbcTemplate).query(
                 eq("SELECT isbn, title, author_id from books WHERE isbn = ? LIMIT 1"),
                 ArgumentMatchers.<BookDAOIml.BookRowMapper>any(),
                 eq("978-1-2345-6789-0")
+        );
+    }
+
+    @Test
+    public void testThatFindGeneratesCorrectSql(){
+        underTest.find();
+        verify(jdbcTemplate).query(
+                eq("SELECT isbn, title, author_id FROM books"),
+                ArgumentMatchers.<BookDAOIml.BookRowMapper>any()
         );
     }
 }
