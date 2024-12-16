@@ -4,12 +4,14 @@ import com.amar.jdbc_template.dao.BookDAO;
 import com.amar.jdbc_template.domain.Book;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class BookDAOIml implements BookDAO {
 
     private final JdbcTemplate jdbcTemplate;
@@ -30,10 +32,10 @@ public class BookDAOIml implements BookDAO {
     @Override
     public Optional<Book> find(String isbn) {
        List<Book> result = jdbcTemplate.query(
-                "SELET isbn, title, authorId FROM books WHERE isbn = ? LIMIT 1",
-                new BookRowMapper(),
-                isbn
-        );
+               "SELECT isbn, title, author_id from books WHERE isbn = ? LIMIT 1",
+               new BookRowMapper(),
+               isbn
+       );
 
        return result.stream().findFirst();
     }
@@ -45,7 +47,7 @@ public class BookDAOIml implements BookDAO {
           return   Book.builder()
                     .isbn(rs.getString("isbn"))
                     .title(rs.getString("title"))
-                    .authorId(rs.getLong("authorId"))
+                    .authorId(rs.getLong("author_Id"))
                     .build();
         }
     }
