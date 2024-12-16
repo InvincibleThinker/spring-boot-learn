@@ -7,7 +7,7 @@ import lombok.Builder;
 
 import java.util.Objects;
 
-@Builder
+
 public class Author {
 
     private Long id;
@@ -68,5 +68,39 @@ public class Author {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    public static class AuthorBuilder {
+        private Long id;
+        private String name;
+        private Integer age;
+
+        // Set the id
+        public AuthorBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        // Set the name
+        public AuthorBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        // Set the age
+        public AuthorBuilder age(Integer age) {
+            this.age = age;
+            return this;
+        }
+
+        // Build the Author object
+        public Author build() {
+            return new Author(id, name, age);
+        }
+    }
+
+    // Static method to get the builder
+    public static AuthorBuilder builder() {
+        return new AuthorBuilder();
     }
 }
