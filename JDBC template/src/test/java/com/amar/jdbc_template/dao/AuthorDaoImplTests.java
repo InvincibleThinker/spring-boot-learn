@@ -1,6 +1,7 @@
 package com.amar.jdbc_template.dao;
 
 
+import com.amar.jdbc_template.TestDataUtil;
 import com.amar.jdbc_template.dao.impl.AuthorDAOImpl;
 import com.amar.jdbc_template.domain.Author;
 import org.junit.jupiter.api.Test;
@@ -27,11 +28,7 @@ public class AuthorDaoImplTests {
 
     @Test
     public void testThatCreateAuthorGenratesCorrectSql(){
-        Author author = Author.builder()
-                .id(1l)
-                .name("Jack Rose")
-                .age(38)
-                .build();
+        Author author = TestDataUtil.createTestAuthor();
 
         underTest.create(author);
 

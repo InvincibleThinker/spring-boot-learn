@@ -4,6 +4,7 @@ import com.amar.jdbc_template.dao.AuthorDAO;
 import com.amar.jdbc_template.domain.Author;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 import static org.springframework.jdbc.core.JdbcOperationsExtensionsKt.query;
 
+@Component
 public class AuthorDAOImpl implements AuthorDAO {
 
     private final JdbcTemplate jdbcTemplate;
@@ -34,7 +36,7 @@ public class AuthorDAOImpl implements AuthorDAO {
     @Override
     public Optional<Author> findOne(long authorId) {
         List<Author> results=jdbcTemplate.query(
-                "SELECT id, name, age FORM authors WHERE id = ? LIMIT 1",
+                "SELECT id, name, age FROM authors WHERE id = ? LIMIT 1",
                 new AuthorRowMapper(),
                 authorId
 
