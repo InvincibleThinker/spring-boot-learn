@@ -5,6 +5,7 @@ import com.amar.jdbc_template.dao.impl.BookDAOIml;
 import com.amar.jdbc_template.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -45,6 +46,12 @@ public class BookDaoImplTests {
 
     @Test
     public void testThatFindOneBookGeneratesCorrectSql(){
+        underTest.find("978-1-2345-6789-0");
 
+        verify(jdbcTemplate).query(
+                eq("SELET isbn, title, authorId FROM books WHERE isbn = ? LIMIT 1"),
+                ArgumentMatchers.<BookDAOIml.BookRowMapper>any(),
+                eq("978-1-2345-6789-0")
+        );
     }
 }
