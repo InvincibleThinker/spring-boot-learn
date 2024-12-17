@@ -24,12 +24,9 @@ public class AuthorDAOImpl implements AuthorDAO {
 
     @Override
     public void create(Author author) {
-
         jdbcTemplate.update(
-                "INSERT INTO authors(id, name, age) VALUES(?,?,?)",
-                author.getId(),
-                author.getName(),
-                author.getAge()
+                "INSERT INTO authors (id, name, age) VALUES (?, ?, ?)",
+                author.getId(), author.getName(), author.getAge()
         );
     }
 

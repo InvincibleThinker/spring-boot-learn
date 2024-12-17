@@ -32,15 +32,17 @@ public class AuthorDaoImplTests {
 
         underTest.create(author);
 
-        verify(jdbcTemplate).update(eq("INSERT INTO authors (id,name,age) VALUES(?,?,?)"),
-                eq(1L), eq("Jack Rose"), eq(38));
+        verify(jdbcTemplate).update(
+                eq("INSERT INTO authors (id, name, age) VALUES (?, ?, ?)"),
+                eq(1L), eq("Abigail Rose"), eq(80)
+        );
     }
 
     @Test
     public void testThatFindOneGeneratesTheCorrectSql(){
         underTest.findOne(1L);
         verify(jdbcTemplate).query(
-                eq("SELECT id, name, age FORM authors WHERE id = ? LIMIT 1"),
+                eq("SELECT id, name, age FROM authors WHERE id = ? LIMIT 1"),
                 ArgumentMatchers.<AuthorDAOImpl.AuthorRowMapper>any(),
                 eq(1L)
         );
