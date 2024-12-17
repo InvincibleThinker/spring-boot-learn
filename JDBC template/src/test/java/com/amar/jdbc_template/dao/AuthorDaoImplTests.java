@@ -27,7 +27,7 @@ public class AuthorDaoImplTests {
     public AuthorDAOImpl underTest;
 
     @Test
-    public void testThatCreateAuthorGenratesCorrectSql(){
+    public void testThatCreateAuthorGeneratesCorrectSql(){
         Author author = TestDataUtil.createTestAuthorA();
 
         underTest.create(author);
@@ -61,6 +61,15 @@ public class AuthorDaoImplTests {
         verify(jdbcTemplate).update(
                 "UPDATE authors SET id = ?, name = ?, age = ? WHERE id = ?",
                 1L, "Abigail Rose", 80, 1L
+        );
+    }
+
+    @Test
+    public void testThatDeleteGeneratesCorrectSql(){
+        underTest.delete(1L);
+        verify(jdbcTemplate).update(
+                "DELETE FROM authors WHERE id = ?",
+                1L
         );
     }
 }

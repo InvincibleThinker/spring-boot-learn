@@ -21,9 +21,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class BookDaoImplIntegrationTests {
 
-    private AuthorDAO authorDAO;
+    private final AuthorDAO authorDAO;
 
-    private BookDAOIml underTest;
+    private final BookDAOIml underTest;
 
     @Autowired
     public BookDaoImplIntegrationTests(BookDAOIml underTest, AuthorDAO authorDAO){
