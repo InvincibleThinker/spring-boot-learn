@@ -1,4 +1,9 @@
 package com.amar.jdbc_template.repositories;
 
-public interface AuthorRepository {
+import com.amar.jdbc_template.domain.Author;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface AuthorRepository extends CrudRepository<Author, Long> {
 }
