@@ -3,6 +3,7 @@ package com.amar.jdbc_template.repositories;
 
 import com.amar.jdbc_template.TestDataUtil;
 import com.amar.jdbc_template.domain.Author;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,20 @@ public class AuthorRepositoryIntegrationTests {
         underTest.deleteById(authorA.getId());
         Optional<Author> result = underTest.findById(authorA.getId());
         assertThat(result).isEmpty();
+    }
+
+    @Test
+    public void tesThatGetAuthorsWithAgeLessThan(){
+        Author testAuthorA = TestDataUtil.createTestAuthorA();
+        underTest.save(testAuthorA);
+        Author testAuthorB = TestDataUtil.createTestAuthorB();
+        underTest.save(testAuthorB);
+        Author testAuthorC = TestDataUtil.createTestAuthorC();
+        underTest.save(testAuthorC);
+
+        Iterable<Author> result = underTest.ageLessThan(50);
+        assertThat(result).containsExactly(testAuthorB, testAuthorC);
+
+
     }
 }
