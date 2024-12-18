@@ -1,4 +1,7 @@
 package com.amar.jdbc_template.repositories;
 
-public interface BookRepository {
+import com.amar.jdbc_template.domain.Book;
+import org.springframework.data.repository.CrudRepository;
+
+public interface BookRepository extends CrudRepository<Book, String> {
 }
