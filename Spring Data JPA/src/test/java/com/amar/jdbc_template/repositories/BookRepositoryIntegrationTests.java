@@ -40,29 +40,25 @@ public class BookRepositoryIntegrationTests {
         assertThat(result.get()).isEqualTo(book);
     }
 
-//    @Test
-//    public void testThatMultipleBooksCanBeCreatedAndRecalled(){
-//        Author author = TestDataUtil.createTestAuthorA();
-//        authorDAO.create(author);
-//
-//        Book bookA = TestDataUtil.createBookTestA();
-//        bookA.setAuthorId(author.getId());
-//        underTest.create(bookA);
-//
-//        Book bookB = TestDataUtil.createBookTestB();
-//        bookB.setAuthorId(author.getId());
-//        underTest.create(bookB);
-//
-//        Book bookC = TestDataUtil.createBookTestC();
-//        bookC.setAuthorId(author.getId());
-//        underTest.create(bookC);
-//
-//        List<Book> result = underTest.find();
-//        assertThat(result)
-//                .hasSize(3)
-//                .containsExactly(bookA, bookB, bookC);
-//
-//    }
+    @Test
+    public void testThatMultipleBooksCanBeCreatedAndRecalled(){
+        Author author = TestDataUtil.createTestAuthorA();
+
+        Book bookA = TestDataUtil.createTestBookA(author);
+        underTest.save(bookA);
+
+        Book bookB = TestDataUtil.createTestBookB(author);
+        underTest.save(bookB);
+
+        Book bookC = TestDataUtil.createTestBookC(author);
+        underTest.save(bookC);
+
+        Iterable<Book> result = underTest.findAll();
+        assertThat(result)
+                .hasSize(3)
+                .containsExactly(bookA, bookB, bookC);
+
+    }
 //
 //    @Test
 //    public void testThatBookCanBeUpdated(){
