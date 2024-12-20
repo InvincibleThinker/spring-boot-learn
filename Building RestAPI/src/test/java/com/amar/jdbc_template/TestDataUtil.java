@@ -1,15 +1,24 @@
 package com.amar.jdbc_template;
 
+import com.amar.jdbc_template.domain.dto.AuthorDto;
+import com.amar.jdbc_template.domain.dto.BookDto;
 import com.amar.jdbc_template.domain.entity.AuthorEntity;
 import com.amar.jdbc_template.domain.entity.BookEntity;
 
 public final class TestDataUtil {
     private TestDataUtil(){
-
     }
 
-    public static AuthorEntity createTestAuthorA() {
+    public static AuthorEntity createTestAuthorEntityA() {
         return AuthorEntity.builder()
+                .id(1L)
+                .name("Abigail Rose")
+                .age(80)
+                .build();
+    }
+
+    public static AuthorDto createTestAuthorDtoA() {
+        return AuthorDto.builder()
                 .id(1L)
                 .name("Abigail Rose")
                 .age(80)
@@ -32,11 +41,19 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static BookEntity createTestBookA(final AuthorEntity authorEntity) {
+    public static BookEntity createTestBookEntityA(final AuthorEntity authorEntity) {
         return BookEntity.builder()
                 .isbn("978-1-2345-6789-0")
                 .title("The Shadow in the Attic")
-                .author(authorEntity)
+                .authorEntity(authorEntity)
+                .build();
+    }
+
+    public static BookDto createTestBookDtoA(final AuthorDto authorDto) {
+        return BookDto.builder()
+                .isbn("978-1-2345-6789-0")
+                .title("The Shadow in the Attic")
+                .author(authorDto)
                 .build();
     }
 
@@ -44,7 +61,7 @@ public final class TestDataUtil {
         return BookEntity.builder()
                 .isbn("978-1-2345-6789-1")
                 .title("Beyond the Horizon")
-                .author(authorEntity)
+                .authorEntity(authorEntity)
                 .build();
     }
 
@@ -52,7 +69,7 @@ public final class TestDataUtil {
         return BookEntity.builder()
                 .isbn("978-1-2345-6789-2")
                 .title("The Last Ember")
-                .author(authorEntity)
+                .authorEntity(authorEntity)
                 .build();
     }
 }

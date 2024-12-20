@@ -89,7 +89,7 @@ public class BookEntity {
             return this;
         }
 
-        public BookBuilder author(AuthorEntity authorEntity){
+        public BookBuilder authorEntity(AuthorEntity authorEntity){
             this.authorEntity = authorEntity;
             return this;
         }
