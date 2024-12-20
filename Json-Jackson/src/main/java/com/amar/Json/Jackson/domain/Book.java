@@ -1,5 +1,7 @@
 package com.amar.Json.Jackson.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public class Book {
@@ -10,6 +12,7 @@ public class Book {
 
     private String author;
 
+    @JsonProperty("year")
     private String yearPublished;
 
     public Book() {
