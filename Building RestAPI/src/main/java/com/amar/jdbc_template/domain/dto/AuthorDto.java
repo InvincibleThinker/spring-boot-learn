@@ -13,7 +13,7 @@ public class AuthorDto {
 
     private Integer age;
 
-    public AuthorDto(String isbn, String title, AuthorDto author) {
+    public AuthorDto() {
     }
 
     public AuthorDto(Long id, String name, Integer age) {
