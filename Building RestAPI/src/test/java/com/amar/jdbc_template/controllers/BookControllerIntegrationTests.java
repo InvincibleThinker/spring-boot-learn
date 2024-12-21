@@ -99,15 +99,15 @@ public class BookControllerIntegrationTests {
     @Test
     public void testThatListBookReturnsBook() throws Exception {
         BookEntity testBookEntityA = TestDataUtil.createTestBookEntityA(null);
-        bookService.createUpdateBook(testBookEntityA.getIsbn(),testBookEntityA);
+        bookService.createUpdateBook(testBookEntityA.getIsbn(), testBookEntityA);
+
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/books")
                         .contentType(MediaType.APPLICATION_JSON)
-
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].isbn").value("978-1-2345-6789-0")
+                MockMvcResultMatchers.jsonPath("$.content[0].isbn").value("978-1-2345-6789-0")
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].title").value("The Shadow in the Attic")
+                MockMvcResultMatchers.jsonPath("$.content[0].title").value("The Shadow in the Attic")
         );
     }
 
