@@ -5,6 +5,8 @@ import com.amar.jdbc_template.domain.dto.BookDto;
 import com.amar.jdbc_template.domain.entity.BookEntity;
 import com.amar.jdbc_template.mappers.Mapper;
 import com.amar.jdbc_template.services.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,10 +54,10 @@ public class BookController {
     }
 
     @GetMapping(path = "/books")
-    public List<BookDto> listBook(){
-        List<BookEntity> books = bookService.findAll();
-        return books.stream().map(bookMapper::mapTo)
-                .collect(Collectors.toList());
+    public Page<BookDto> listBook(Pageable pageable){
+        Page<BookEntity> books = bookService.findAll(pageable);
+
+        return books.map(bookMapper::mapTo);
     }
 
     @GetMapping(path = "/books/{isbn}")
