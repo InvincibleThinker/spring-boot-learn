@@ -6,7 +6,6 @@ import com.amar.jdbc_template.domain.entity.BookEntity;
 import com.amar.jdbc_template.mappers.Mapper;
 import com.amar.jdbc_template.services.BookService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,14 +25,17 @@ public class BookController {
     }
 
     @PutMapping(path = "/books/{isbn}")
-    public ResponseEntity<BookDto> createBook(@PathVariable("isbn") String isbn,
-                                              @RequestBody BookDto bookDto){
-
-            BookEntity bookEntity = bookMapper.mapFrom(bookDto);
-            BookEntity savedBookEntity = bookService.createBook(isbn ,bookEntity);
-            BookDto savedBookDto = bookMapper.mapTo(savedBookEntity);
-
-            return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+    public ResponseEntity<BookDto> createUpdateBook(@PathVariable("isbn") String isbn,
+                                                    @RequestBody BookDto bookDto){
+        BookEntity bookEntity = bookMapper.mapFrom(bookDto);
+        boolean bookExists = bookService.isExists(isbn);
+        BookEntity savedBookEntity = bookService.createUpdateBook(isbn, bookEntity);
+        BookDto savedUpdatedBookDto = bookMapper.mapTo(savedBookEntity);
+            if(bookExists){
+                return new ResponseEntity<>(savedUpdatedBookDto, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(savedUpdatedBookDto, HttpStatus.CREATED);
+            }
     }
 
     @GetMapping(path = "/books")
@@ -51,4 +53,6 @@ public class BookController {
             return new ResponseEntity<>(bookDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+
 }

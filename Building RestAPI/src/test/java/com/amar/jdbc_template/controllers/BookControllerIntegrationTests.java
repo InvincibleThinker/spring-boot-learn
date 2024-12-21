@@ -18,8 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.List;
-
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -39,7 +37,7 @@ public class BookControllerIntegrationTests {
     }
 
     @Test
-    public void testThatCreateBookReturnsHttpStatus201Created() throws Exception{
+    public void testThatCreateUpdateBookReturnsHttpStatus201Created() throws Exception{
         BookDto bookDto = TestDataUtil.createTestBookDtoA(null);
         String creteBookJson = objectMapper.writeValueAsString(bookDto);
 
@@ -51,9 +49,28 @@ public class BookControllerIntegrationTests {
                 MockMvcResultMatchers.status().isCreated()
         );
     }
+    @Test
+    public void testThatUpdateBookReturnsHttpStatus200Ok() throws Exception{
+        BookEntity testBookEntityA = TestDataUtil.createTestBookEntityA(null);
+        BookEntity savedBookEntity = bookService.createUpdateBook(
+                testBookEntityA.getIsbn(), testBookEntityA
+        );
+
+        BookDto testBookA = TestDataUtil.createTestBookDtoA(null);
+        testBookA.setIsbn(savedBookEntity.getIsbn());
+        String bookJson = objectMapper.writeValueAsString(testBookA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/books/" + savedBookEntity.getIsbn() )
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bookJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
 
     @Test
-    public void testThatCreateBookReturnsCreatedBook() throws Exception{
+    public void testThatCreateBookReturnsCreatedUpdateBook() throws Exception{
         BookDto bookDto = TestDataUtil.createTestBookDtoA(null);
         String creteBookJson = objectMapper.writeValueAsString(bookDto);
 
@@ -82,7 +99,7 @@ public class BookControllerIntegrationTests {
     @Test
     public void testThatListBookReturnsBook() throws Exception {
         BookEntity testBookEntityA = TestDataUtil.createTestBookEntityA(null);
-        bookService.createBook(testBookEntityA.getIsbn(),testBookEntityA);
+        bookService.createUpdateBook(testBookEntityA.getIsbn(),testBookEntityA);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -95,9 +112,32 @@ public class BookControllerIntegrationTests {
     }
 
     @Test
+    public void testThatUpdateBookReturnsUpdatedBook() throws Exception {
+        BookEntity testBookEntityA = TestDataUtil.createTestBookEntityA(null);
+        BookEntity savedBookEntity = bookService.createUpdateBook(
+                testBookEntityA.getIsbn(), testBookEntityA
+        );
+
+        BookDto testBookA = TestDataUtil.createTestBookDtoA(null);
+        testBookA.setIsbn(savedBookEntity.getIsbn());
+        testBookA.setTitle("Updated");
+        String bookJson = objectMapper.writeValueAsString(testBookA);
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/books/" + savedBookEntity.getIsbn())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bookJson)
+
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.isbn").value("978-1-2345-6789-0")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.title").value("Updated")
+        );
+    }
+
+    @Test
     public void testThatGetBookReturnsHttpStatus200OkWhenBookExists() throws Exception{
         BookEntity testBookEntityA = TestDataUtil.createTestBookEntityA(null);
-        bookService.createBook(testBookEntityA.getIsbn(),testBookEntityA);
+        bookService.createUpdateBook(testBookEntityA.getIsbn(),testBookEntityA);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/books/" + testBookEntityA.getIsbn())
                         .contentType(MediaType.APPLICATION_JSON)
